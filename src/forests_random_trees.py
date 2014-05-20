@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
     print "DecMeg2014: https://www.kaggle.com/c/decoding-the-human-brain"
     print
-    subjects_train = range(1, 7) # use range(1, 17) for all subjects
+    subjects_train = range(1, 17) # use range(1, 17) for all subjects
     print "Training on subjects", subjects_train
 
     # We throw away all the MEG data outside the first 0.5sec from when
