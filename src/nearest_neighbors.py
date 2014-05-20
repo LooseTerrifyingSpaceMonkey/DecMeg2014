@@ -104,7 +104,7 @@ if __name__ == '__main__':
 
     print
     #clf = LogisticRegression(random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
-    clf = KNeighborsClassifier(n_neighbors=2, algorithm='ball_tree')
+    clf = KNeighborsClassifier(n_neighbors=15, algorithm='ball_tree', weights='distance')
     print "Classifier:"
     print clf
     print "Training."
