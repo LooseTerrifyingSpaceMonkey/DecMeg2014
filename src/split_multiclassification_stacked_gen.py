@@ -12,6 +12,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import SGDClassifier
 from scipy.io import loadmat
 
 
@@ -79,7 +80,7 @@ if __name__ == '__main__':
 
         xx = np.vstack(XX)
         print
-        adaClf = AdaBoostClassifier(n_estimators=30)
+        adaClf = AdaBoostClassifier(n_estimators=100)
         print "Classifier:"
         print adaClf
         print "Training", subject
@@ -87,12 +88,20 @@ if __name__ == '__main__':
         classifiers.append(adaClf)
 
         print
-        rfClf = RandomForestClassifier(n_estimators=100, max_depth=None, max_features=375, n_jobs=-1)
+        rfClf = RandomForestClassifier(n_estimators=1000, max_depth=None, max_features=375, n_jobs=-1)
         print "Classifier:"
         print rfClf
         print "Training", subject
         rfClf.fit(xx, yy)
         classifiers.append(rfClf)
+
+        print
+        sgdClf = SGDClassifier(loss="hinge", penalty="l2")
+        print "Classifier:"
+        print sgdClf
+        print "Training", subject
+        sgdClf.fit(xx, yy)
+        classifiers.append(sgdClf)
 
         '''print
         nnClf = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', weights='distance')
