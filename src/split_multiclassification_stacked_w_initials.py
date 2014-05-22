@@ -87,7 +87,7 @@ if __name__ == '__main__':
 
         xx = np.vstack(XX)
 
-        start_time = time.time()
+        '''start_time = time.time()
         print
         adaClf = AdaBoostClassifier(n_estimators=60)
         print "Classifier:"
@@ -95,9 +95,9 @@ if __name__ == '__main__':
         print "Training", subject
         adaClf.fit(xx, yy)
         classifiers.append(adaClf)
-        print "Time:", time.time() - start_time
+        print "Time:", time.time() - start_time'''
 
-        start_time = time.time()
+        '''start_time = time.time()
         print
         rfClf = RandomForestClassifier(n_estimators=20, n_jobs=-1)
         print "Classifier:"
@@ -125,11 +125,11 @@ if __name__ == '__main__':
         print "Training", subject
         nnClf.fit(xx, yy)
         classifiers.append(nnClf)
-        print "Time:", time.time() - start_time
+        print "Time:", time.time() - start_time '''
 
         start_time = time.time()
         print
-        lrClf = LogisticRegression(random_state=0)
+        lrClf = LogisticRegression(C=1, penalty='l2', random_state=0)
         print "Classifier:"
         print lrClf
         print "Training", subject
@@ -194,7 +194,7 @@ if __name__ == '__main__':
     # Train the logistic regression
     start_time = time.time()
     print
-    clf = LogisticRegression(random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
+    clf = LogisticRegression(C=1, penalty='l2', random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
     print "Classifier:"
     print clf
     print "Training."
