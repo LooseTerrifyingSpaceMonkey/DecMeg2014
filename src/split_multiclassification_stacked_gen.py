@@ -79,7 +79,8 @@ if __name__ == '__main__':
         y_train.append(yy)
 
         xx = np.vstack(XX)
-        print
+
+        '''print
         adaClf = AdaBoostClassifier(n_estimators=100)
         print "Classifier:"
         print adaClf
@@ -103,21 +104,21 @@ if __name__ == '__main__':
         sgdClf.fit(xx, yy)
         classifiers.append(sgdClf)
 
-        '''print
+        print
         nnClf = KNeighborsClassifier(n_neighbors=5, algorithm='ball_tree', weights='distance')
         print "Classifier:"
         print nnClf
         print "Training", subject
         nnClf.fit(xx, yy)
-        classifiers.append(nnClf)
+        classifiers.append(nnClf)'''
 
         print
-        lrClf = LogisticRegression(random_state=0)
+        lrClf = LogisticRegression(C=1, penalty='l2', random_state=0)
         print "Classifier:"
         print lrClf
         print "Training", subject
         lrClf.fit(xx, yy)
-        classifiers.append(lrClf)'''
+        classifiers.append(lrClf)
 
     # X_train is the full stack of subjects
     X_train = np.vstack(X_train)
@@ -163,7 +164,7 @@ if __name__ == '__main__':
 
     # Train the logistic regression
     print
-    clf = LogisticRegression(random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
+    clf = LogisticRegression(C=1, penalty='l2', random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
     print "Classifier:"
     print clf
     print "Training."
