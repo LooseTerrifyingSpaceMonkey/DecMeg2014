@@ -14,6 +14,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import SGDClassifier
 from scipy.io import loadmat
+from sklearn.grid_search import GridSearchCV
+from time import time
 
 
 def create_features(XX, tmin, tmax, sfreq, tmin_original=-0.5):
@@ -113,11 +115,16 @@ if __name__ == '__main__':
         classifiers.append(nnClf)'''
 
         print
-        lrClf = LogisticRegression(C=1, penalty='l2', random_state=0)
+        t0 = time()
+        param_grid = {'C': [1, 10, 1e2, 1e3, 1e4, 1e5], 'penalty': ['l1', 'l2']}
+        lrClf = GridSearchCV(LogisticRegression(random_state=0), param_grid)
         print "Classifier:"
         print lrClf
         print "Training", subject
         lrClf.fit(xx, yy)
+        print "Best estimator found by grid search:"
+        print lrClf.best_estimator_
+        print "Done in:", (time() - t0)
         classifiers.append(lrClf)
 
     # X_train is the full stack of subjects
@@ -153,10 +160,15 @@ if __name__ == '__main__':
 
     lr_train = []
     lr_test = []
+    print "Number of classifiers:", len(classifiers)
     #Now we generate the predictions for each of the classifiers on the training set.
     for indx, classifier in enumerate(classifiers):
+        print
+        print "Predicting", indx
+        t0 = time()
         lr_train.append(classifier.predict(X_train))
         lr_test.append(classifier.predict(X_test))
+        print "Done in:", (time() - t0)
 
     # Convert the predictions into a usable format for the logistic regression.
     lr_train = np.column_stack(lr_train)
@@ -164,13 +176,16 @@ if __name__ == '__main__':
 
     # Train the logistic regression
     print
-    clf = LogisticRegression(C=1, penalty='l2', random_state=0) # Beware! You need 10Gb RAM to train LogisticRegression on all 16 subjects!
+    t0 = time()
+    param_grid = {'C': [1, 10, 1e2, 1e3, 1e4, 1e5], 'penalty': ['l1', 'l2']}
+    clf = GridSearchCV(LogisticRegression(random_state=0), param_grid)
     print "Classifier:"
     print clf
     print "Training."
     clf.fit(lr_train, y_train)
     print "Predicting."
     y_pred = clf.predict(lr_test)
+    print "Done in:", (time() - t0)
 
     print
     filename_submission = "../output/submissionMultiClassStackedGen.csv"
